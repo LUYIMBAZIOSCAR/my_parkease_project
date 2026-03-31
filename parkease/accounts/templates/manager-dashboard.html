@@ -1,0 +1,36 @@
+{% extends 'layout.html'%}
+{% block body%}
+<h3 class="mb-3">Welcome Admin {{request.user.username}}</h3>
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+<div class="card shadow-sm">
+<div class="card-body">
+<h5>Total Vehicles Today</h5>
+<h2>45</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card shadow-sm">
+<div class="card-body">
+<h5>Vehicles Currently Parked</h5>
+<h2>18</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card shadow-sm">
+<div class="card-body">
+<h5>Total Revenue Today</h5>
+<h2>$120</h2>
+</div>
+</div>
+</div>
+
+</div>
+{% endblock %}

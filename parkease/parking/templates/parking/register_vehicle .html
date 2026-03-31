@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h2 class="mb-4">Register Vehicle</h2>
+
+<div class="card shadow-sm">
+<div class="card-body">
+
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="row g-3">
+
+        <div class="col-md-6">
+            <label class="form-label">Driver Name</label>
+            <input type="text" name="driver_name" class="form-control">
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Vehicle Type</label>
+            <select name="vehicle_type" class="form-control">
+                <option>Car</option>
+                <option>Motorcycle</option>
+                <option>Truck</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Number Plate</label>
+            <input type="text" name="number_plate" class="form-control">
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Vehicle Model</label>
+            <input type="text" name="model" class="form-control">
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Color</label>
+            <input type="text" name="color" class="form-control">
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Phone Number</label>
+            <input type="text" name="phone_number" class="form-control">
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">National ID</label>
+            <input type="text" name="nin" class="form-control">
+        </div>
+
+    </div>
+
+    <button class="btn btn-primary mt-3">Register Vehicle</button>
+</form>
+</div>
+</div>
+{% endblock %}
+

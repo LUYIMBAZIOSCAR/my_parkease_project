@@ -1,0 +1,49 @@
+body{
+background:#f4f6f9;
+font-family:Arial;
+
+}
+
+.sidebar{
+width:250px;
+min-height:100vh;
+}
+
+.main-content{
+flex:1;
+}
+
+.nav-link{
+margin-bottom:10px;
+}
+
+.nav-link:hover{
+background:#343a40;
+border-radius:5px;
+}
+
+.login-body{
+background:#f4f6f9;
+background-image: url("/static/images/kkkoo.jpg");
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;
+}
+
+.login-card{
+width:350px;
+background: rgba(255,255,255,0.1);
+backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(15px);
+border:1px solid rgba(255,255,255,0.3);
+box-shadow:0 8px 32px rgba(0,0,0,0.2);
+border-radius:15px;
+color:white;
+}
+
+.login-card input{
+    background: rgba(255,255,255,0.1);
+    border-radius:10px;
+
+}
