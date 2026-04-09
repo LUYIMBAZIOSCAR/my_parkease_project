@@ -56,3 +56,8 @@ def register_vehicle(request):
     
     return render(request,'parking/register_vehicle.html',{"form":VehicleForm()})
 
+# View function for parked vehicles 
+def parked_vehicles(request):
+    vehicles=Vehicle.objects.filter(is_parked=True)
+    return render(request,'parking/parked_vehicles.html',{'vehicles':vehicles})
+

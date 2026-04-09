@@ -12,14 +12,16 @@ class Vehicle(models.Model):
 
     driver_name = models.CharField(max_length=50)
     vehicle_type = models.CharField(max_length=10, choices=VEHICLE_CHOICES)
-    number_plate = models.CharField(max_length=5)
-    model = models.CharField(max_length=5)
+    number_plate = models.CharField(max_length=10,unique=True)
+    model = models.CharField(max_length=50)
     color = models.CharField(max_length=10)
-    phone_number = models.CharField(max_length=10)
-    nin = models.CharField(max_length=14)
+    phone_number = models.CharField(max_length=10,unique=True)
+    nin = models.CharField(max_length=14,unique=True)
 
     entry_time = models.DateTimeField(auto_now_add=True)  # auto set
     exit_time = models.DateTimeField(null=True, blank=True)
+
+    is_parked = models.BooleanField(default=True)
     is_paid = models.BooleanField(default=False)
 
     def __str__(self):
