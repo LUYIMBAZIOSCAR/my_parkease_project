@@ -1,57 +1,53 @@
-{% extends 'layout.html' %}
+{% extends 'parking/layout.html' %}
 {% block body %}
 <h2 class="mb-4">Register Vehicle</h2>
 
 <div class="card shadow-sm">
 <div class="card-body">
 
-<form method="POST">
+<form method="POST" action="{% url 'register_vehicle' %}">
     {% csrf_token %}
 
     <div class="row g-3">
 
         <div class="col-md-6">
             <label class="form-label">Driver Name</label>
-            <input type="text" name="driver_name" class="form-control">
+            {{ form.driver_name }}
         </div>
 
         <div class="col-md-6">
             <label class="form-label">Vehicle Type</label>
-            <select name="vehicle_type" class="form-control">
-                <option>Car</option>
-                <option>Motorcycle</option>
-                <option>Truck</option>
-            </select>
+            {{ form.vehicle_type }}
         </div>
 
         <div class="col-md-6">
             <label class="form-label">Number Plate</label>
-            <input type="text" name="number_plate" class="form-control">
+             {{ form.number_plate }}
         </div>
 
         <div class="col-md-6">
             <label class="form-label">Vehicle Model</label>
-            <input type="text" name="model" class="form-control">
+            {{ form.model }}
         </div>
 
         <div class="col-md-6">
             <label class="form-label">Color</label>
-            <input type="text" name="color" class="form-control">
+            {{ form.color }}
         </div>
 
         <div class="col-md-6">
             <label class="form-label">Phone Number</label>
-            <input type="text" name="phone_number" class="form-control">
+            {{ form.phone_number }}
         </div>
 
         <div class="col-md-6">
             <label class="form-label">National ID</label>
-            <input type="text" name="nin" class="form-control">
+             {{ form.nin }}
         </div>
 
     </div>
 
-    <button class="btn btn-primary mt-3">Register Vehicle</button>
+    <button class="btn btn-primary mt-3" type="submit">Register Vehicle</button>
 </form>
 </div>
 </div>

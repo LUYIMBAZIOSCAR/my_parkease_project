@@ -16,24 +16,24 @@ def login_view(request):
             login(request,user)
             role=user.profile.role
             if role=='admin':
-                return redirect('admin-dashboard')
+                return redirect('admin_dashboard')
             elif role=='attendant':
-                return redirect('dashboard')
+                return redirect('attendant_dashboard')
 
             
         else:
             messages.error(request, "Invalid username or password. Please try again.")
 
-    return render(request,'login.html')
+    return render(request,'accounts/login.html')
 
 
 # parking attendant dashboard 
-def dashboard(request):
-    return render(request,'attendant-dashboard.html')
+def attendant_dashboard(request):
+    return render(request,'accounts/attendant-dashboard.html')
 
 # manager dashboard 
-def manager_dashboard(request):
-    return render(request,'manager-dashboard.html')
+def admin_dashboard(request):
+    return render(request,'accounts/admin_dashboard.html')
 
 # view for logout
 def logout_view(request):
