@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
+from parking.models import Vehicle
 
 # Create your views here.
 
@@ -29,7 +30,8 @@ def login_view(request):
 
 # parking attendant dashboard 
 def attendant_dashboard(request):
-    return render(request,'accounts/attendant-dashboard.html')
+    vehicles=Vehicle.objects.filter(is_parked=True).count()
+    return render(request,'accounts/attendant-dashboard.html',{'count':vehicles})
 
 # manager dashboard 
 def admin_dashboard(request):

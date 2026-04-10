@@ -1,43 +1,46 @@
-{% extends 'parking/layout.html' %}
-{% block body %}
+{% extends 'layout.html' %} {% block body %}
 <h2 class="mb-4">Parked Vehicles</h2>
 
 <div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Driver Name</th>
+          <th>Number Plate</th>
+          <th>Vehicle Type</th>
+          <th>Model</th>
+          <th>Arrival Time</th>
+          <th>Fee</th>
+          <th>Action</th>
+        </tr>
+      </thead>
 
-<div class="card-body">
-
-<table class="table table-striped">
-
-<thead>
-
-<tr>
-<th>Driver Name</th>
-<th>Number Plate</th>
-<th>Vehicle Type</th>
-<th>Arrival Time</th>
-<th>Action</th>
-</tr>
-
-</thead>
-
-<tbody>
-{% for vehicle in vehicles %}
-<tr>
-<td>{{vehicle.driver_name}}</td>
-<td>{{vehicle.number_plate}}</td>
-<td>{{vehicle.vehicle_type}}</td>
-<td>{{vehicle.entry_time|date:'h:i:A'}}</td>
-<td>
-<button class="btn btn-sm btn-danger">Sign Out</button>
-{% endfor %}
-</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
+      <tbody>
+        {% for vehicle in vehicles %}
+        <tr>
+          <td>{{vehicle.driver_name}}</td>
+          <td>{{vehicle.number_plate}}</td>
+          <td>{{vehicle.vehicle_type}}</td>
+          <td>{{vehicle.model}}</td>
+          <td>{{vehicle.entry_time|date:'h:i:A'}}</td>
+          <td>shs.{{vehicle.fee }}</td>
+          <td>
+            <a
+              href=""
+              class="btn btn-sm btn-danger"
+            >
+              Sign Out
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center">No vehicles parked</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
