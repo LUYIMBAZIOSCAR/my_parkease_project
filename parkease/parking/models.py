@@ -1,13 +1,11 @@
-
-
 # Create your models here.
+import uuid
 from django.db import models
 from django.utils import timezone
 
 class Vehicle(models.Model):
     VEHICLE_CHOICES = [
         ('Car', 'Personal Car'),
-        ('Motorcycle', 'Motorcycle'),
         ('Truck', 'Truck'),
         ('Taxi', 'Taxi'),
         ('Coaster','Coaster'),
@@ -21,6 +19,8 @@ class Vehicle(models.Model):
     color = models.CharField(max_length=10)
     phone_number = models.CharField(max_length=10)
     nin = models.CharField(max_length=14,unique=True)
+    receipt_number = models.CharField(max_length=20, unique=True, blank=True)
+    fee = models.IntegerField(null=True, blank=True)
 
     entry_time = models.DateTimeField(auto_now_add=True)  # auto set
     exit_time = models.DateTimeField(null=True, blank=True)
@@ -49,18 +49,19 @@ class Vehicle(models.Model):
             elif self.vehicle_type=='Boda':
                 return 1000
             
-            # checking whether it is day or night
-            current_hour=now.hour
-            # if it is day
-            if 6 <= current_hour < 19:
-                if self.vehicle_type=='Truck':
-                    return 5000
-                elif self.vehicle_type in ['Car','Taxi']:
-                    return 3000
-                elif self.vehicle_type=='Coaster':
-                    return 4000
-                elif self.vehicle_type=='Boda':
-                    return 2000
+        # checking whether it is day or night
+        current_hour=now.hour
+        # if it is day
+        if 6 <= current_hour < 19:
+            if self.vehicle_type=='Truck':
+                return 5000
+            elif self.vehicle_type in ['Car','Taxi']:
+                return 3000
+            elif self.vehicle_type=='Coaster':
+                return 4000
+            elif self.vehicle_type=='Boda':
+                return 2000
+        
             # if it is night
             else:
                 if self.vehicle_type=='Truck':

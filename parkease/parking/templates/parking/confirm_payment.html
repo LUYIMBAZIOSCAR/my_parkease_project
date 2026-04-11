@@ -1,0 +1,15 @@
+{% extends 'layout.html' %} {% block body %}
+<h2>Confirm Payment</h2>
+
+<p><strong>Driver:</strong> {{ vehicle.driver_name }}</p>
+<p><strong>Plate:</strong> {{ vehicle.number_plate }}</p>
+<p><strong>Entry Time:</strong> {{ vehicle.entry_time }}</p>
+<p><strong>Amount to Pay:</strong> Shs {{ fee }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">
+        Confirm Payment
+    </button>
+</form>
+{% endblock %}

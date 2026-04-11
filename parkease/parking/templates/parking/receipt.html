@@ -1,0 +1,14 @@
+{% extends 'layout.html' %} {% block body %}
+<h2>Parking Receipt</h2>
+
+<p><strong>Receipt No:</strong> {{ vehicle.receipt_number }}</p>
+<p><strong>Driver:</strong> {{ vehicle.driver_name }}</p>
+<p><strong>Plate:</strong> {{ vehicle.number_plate }}</p>
+<p><strong>Entry:</strong> {{ vehicle.entry_time }}</p>
+<p><strong>Exit:</strong> {{ vehicle.exit_time }}</p>
+<p><strong>Amount Paid:</strong> Shs {{ vehicle.fee }}</p>
+
+<a href="{% url 'download_receipt' vehicle.id %}" class="btn btn-primary">
+    Download PDF
+</a>
+{% endblock %}
