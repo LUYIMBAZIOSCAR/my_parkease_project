@@ -83,4 +83,27 @@ def download_receipt(request, vehicle_id):
 
     return response
 
+# view function for signed out vehicles
+def signed_out_vehicles(request):
+    vehicles=Vehicle.objects.filter(is_parked=False)
+
+    for vehicle in vehicles:
+        vehicle.fee=vehicle.calculate_fee()
+    
+    return render(request,'parking/signed_out_vehicles.html',{'vehicles':vehicles})
+
+# view function to delete a vehicle
+def delete_vehicle(request,vehicle_id):
+    try:
+        vehicle=get_object_or_404(Vehicle,id=vehicle_id)
+
+        if request.method=='POST':
+            vehicle.delete()
+            messages.success(request,'Vehicle deleted successfully')
+
+    except Vehicle.DoesNotExist:
+        messages.error(request,'Vehicle already deleted')
+
+    return redirect('signed_out_vehicles')
+
 

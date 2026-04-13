@@ -1,0 +1,47 @@
+{% extends 'layout.html' %} {% block body %}
+<h2 class="mb-4">Signed Out Vehicles</h2>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Driver Name</th>
+          <th>Number Plate</th>
+          <th>Vehicle Type</th>
+          <th>Model</th>
+          <th>Exit Time</th>
+          <th>Fee</th>
+          <th>Action</th>
+          
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for vehicle in vehicles %}
+        <tr>
+          <td>{{vehicle.driver_name}}</td>
+          <td>{{vehicle.number_plate}}</td>
+          <td>{{vehicle.vehicle_type}}</td>
+          <td>{{vehicle.model}}</td>
+          <td>{{vehicle.exit_time|date:'h:i:A'}}</td>
+          <td>shs.{{vehicle.fee }}</td>
+          <td>
+            <a
+              href="{% url 'delete_vehicle' vehicle.id %}"
+              class="btn btn-sm btn-danger"
+            >
+              Delete
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center">No vehicles parked</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
