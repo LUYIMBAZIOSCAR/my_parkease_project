@@ -4,6 +4,8 @@ from .forms import VehicleForm
 from django.contrib import messages
 from .models import Vehicle
 from django.utils import timezone
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
 
 # Create your views here.
 
@@ -31,8 +33,12 @@ def parked_vehicles(request):
 
 # view function for payment confirmation 
 def confirm_payment(request,vehicle_id):
-    vehicle=get_object_or_404(Vehicle,vehicle_id)
+    vehicle=get_object_or_404(Vehicle,id=vehicle_id)
     fee=vehicle.calculate_fee()
+    context={
+            'vehicle':vehicle,
+            'fee':fee
+        }
 
     if request.method=='POST':
         vehicle.exit_time=timezone.now()
@@ -42,10 +48,7 @@ def confirm_payment(request,vehicle_id):
         vehicle.receipt_number=str(uuid.uuid4())[:8]
 
         vehicle.save()
-        context={
-            'vehicle':vehicle,
-            'fee':fee
-        }
+       
 
         return redirect('receipt',vehicle_id=vehicle_id)
     
@@ -53,9 +56,31 @@ def confirm_payment(request,vehicle_id):
 
 # view function for the receipt
 def receipt(request,vehicle_id):
-    vehicle=get_object_or_404(Vehicle,vehicle_id)
+    vehicle=get_object_or_404(Vehicle,id=vehicle_id)
     context={'vehicle':vehicle}
 
     return render(request,'parking/receipt.html',context)
+
+#view function for downloading receipt pdf
+def download_receipt(request, vehicle_id):
+    vehicle = get_object_or_404(Vehicle, id=vehicle_id)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="receipt_{vehicle.id}.pdf"'
+
+    p = canvas.Canvas(response)
+
+    p.drawString(100, 800, "Parking Receipt")
+    p.drawString(100, 780, f"Receipt No: {vehicle.receipt_number}")
+    p.drawString(100, 760, f"Driver: {vehicle.driver_name}")
+    p.drawString(100, 740, f"Plate: {vehicle.number_plate}")
+    p.drawString(100, 720, f"Entry: {vehicle.entry_time}")
+    p.drawString(100, 700, f"Exit: {vehicle.exit_time}")
+    p.drawString(100, 680, f"Amount: Shs {vehicle.fee}")
+
+    p.showPage()
+    p.save()
+
+    return response
 
 
