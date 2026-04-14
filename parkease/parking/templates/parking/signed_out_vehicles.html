@@ -27,12 +27,16 @@
           <td>{{vehicle.exit_time|date:'h:i:A'}}</td>
           <td>shs.{{vehicle.fee }}</td>
           <td>
-            <a
-              href="{% url 'delete_vehicle' vehicle.id %}"
-              class="btn btn-sm btn-danger"
-            >
-              Delete
-            </a>
+            <form action="{% url 'delete_vehicle' vehicle.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">
+                Delete
+              </button>
+            </form>
+            
+              
+            
+
           </td>
         </tr>
         {% empty %}

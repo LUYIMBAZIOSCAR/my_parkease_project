@@ -30,12 +30,29 @@ def login_view(request):
 
 # parking attendant dashboard 
 def attendant_dashboard(request):
-    vehicles=Vehicle.objects.filter(is_parked=True).count()
-    return render(request,'accounts/attendant-dashboard.html',{'count':vehicles})
+    parked_vehicles=Vehicle.objects.filter(is_parked=True).count()
+    total_vehicles=Vehicle.objects.all().count()
+    signed_out_vehicles=Vehicle.objects.filter(is_parked=False).count()
+    context={
+        'parked_vehicles':parked_vehicles,
+        'total_vehicles':total_vehicles,
+        'signed_out_vehicles':signed_out_vehicles
+    }
+
+    return render(request,'accounts/attendant-dashboard.html',context)
 
 # manager dashboard 
 def admin_dashboard(request):
-    return render(request,'accounts/admin_dashboard.html')
+    parked_vehicles=Vehicle.objects.filter(is_parked=True).count()
+    total_vehicles=Vehicle.objects.all().count()
+    signed_out_vehicles=Vehicle.objects.filter(is_parked=False).count()
+    context={
+        'parked_vehicles':parked_vehicles,
+        'total_vehicles':total_vehicles,
+        'signed_out_vehicles':signed_out_vehicles
+    }
+
+    return render(request,'accounts/admin_dashboard.html',context)
 
 # view for logout
 def logout_view(request):
