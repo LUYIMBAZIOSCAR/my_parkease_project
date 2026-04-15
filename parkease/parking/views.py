@@ -65,19 +65,35 @@ def receipt(request,vehicle_id):
 def download_receipt(request, vehicle_id):
     vehicle = get_object_or_404(Vehicle, id=vehicle_id)
 
+    # creating the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="receipt_{vehicle.id}.pdf"'
 
+    # creating the PDF object, using the response object as its "file."
     p = canvas.Canvas(response)
 
-    p.drawString(100, 800, "Parking Receipt")
-    p.drawString(100, 780, f"Receipt No: {vehicle.receipt_number}")
-    p.drawString(100, 760, f"Driver: {vehicle.driver_name}")
-    p.drawString(100, 740, f"Plate: {vehicle.number_plate}")
-    p.drawString(100, 720, f"Entry: {vehicle.entry_time}")
-    p.drawString(100, 700, f"Exit: {vehicle.exit_time}")
-    p.drawString(100, 680, f"Amount: Shs {vehicle.fee}")
+    # Header
+    p.setFont("Helvetica-Bold", 16)
+    p.drawString(100, 800, "PARKING RECEIPT")
+    
+    # Body
+    p.setFont("Helvetica", 12)
+    lines = [
+        f"Receipt No: {vehicle.receipt_number}",
+        f"Driver: {vehicle.driver_name}",
+        f"Plate: {vehicle.number_plate}",
+        f"Entry: {vehicle.entry_time.strftime('%Y-%m-%d %H:%M')}",
+        f"Exit: {vehicle.exit_time.strftime('%Y-%m-%d %H:%M') if vehicle.exit_time else 'N/A'}",
+        "-----------------------------------------",
+        f"TOTAL AMOUNT: Shs {vehicle.fee:,}" 
+    ]
 
+    y = 770
+    for line in lines:
+        p.drawString(100, y, line)
+        y -= 20 # Move down 20 units for each line
+
+    # closing down the pdf cleanly
     p.showPage()
     p.save()
 
