@@ -19,7 +19,8 @@ class Vehicle(models.Model):
     color = models.CharField(max_length=10)
     phone_number = models.CharField(max_length=10)
     nin = models.CharField(max_length=14,unique=True)
-    receipt_number = models.CharField(max_length=20, unique=True, blank=True)
+    receipt_number = models.CharField(max_length=20, unique=True, blank=True
+    ,null=True)
     fee = models.IntegerField(null=True, blank=True)
 
     entry_time = models.DateTimeField(auto_now_add=True)  # auto set

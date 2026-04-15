@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from parking.models import Vehicle
+from django.db.models import Sum
 
 # Create your views here.
 
@@ -46,10 +47,12 @@ def admin_dashboard(request):
     parked_vehicles=Vehicle.objects.filter(is_parked=True).count()
     total_vehicles=Vehicle.objects.all().count()
     signed_out_vehicles=Vehicle.objects.filter(is_parked=False).count()
+    total_revenue=Vehicle.objects.filter(is_paid=True).aggregate(total=Sum('fee'))
     context={
         'parked_vehicles':parked_vehicles,
         'total_vehicles':total_vehicles,
-        'signed_out_vehicles':signed_out_vehicles
+        'signed_out_vehicles':signed_out_vehicles,
+        'total_revenue':total_revenue['total'] or 0
     }
 
     return render(request,'accounts/admin_dashboard.html',context)
