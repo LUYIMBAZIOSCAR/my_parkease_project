@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 
+
 # Create your views here.
 
 # view for registering a vehicle 

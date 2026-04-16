@@ -23,5 +23,10 @@ class VehicleForm(forms.ModelForm):
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'nin': forms.TextInput(attrs={'class': 'form-control'}),
         }
+        error_messages={
+            'driver_name':{'required':'Driver name required'},
+            'phone_number':{'required':'Phone is required '}
+
+        }
 
     
