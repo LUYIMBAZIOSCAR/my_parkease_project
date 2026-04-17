@@ -4,30 +4,47 @@ from django.contrib import messages
 from parking.models import Vehicle
 from django.db.models import Sum
 from django.utils import timezone
+from .forms import LoginForm
 
 # Create your views here.
 
 def login_view(request):
-    if request.method=="POST":
-        body=request.POST
-        username=body.get('username')
-        password=body.get('password')
+    form = LoginForm(request.POST or None)
 
-        user=authenticate(request,username=username,password=password)
+    if request.method == "POST":
+        if form.is_valid():
 
-        if user is not None:
-            login(request,user)
-            role=user.profile.role
-            if role=='admin':
-                return redirect('admin_dashboard')
-            elif role=='attendant':
-                return redirect('attendant_dashboard')
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
 
-            
-        else:
-            messages.error(request, "Invalid username or password. Please try again.")
+            user = authenticate(
+                request,
+                username=username,
+                password=password
+            )
 
-    return render(request,'accounts/login.html')
+            if user is not None:
+                login(request, user)
+
+                role = user.profile.role
+
+                if role == 'admin':
+                    return redirect('admin_dashboard')
+
+                elif role == 'attendant':
+                    return redirect('attendant_dashboard')
+
+            else:
+                messages.error(
+                    request,
+                    "Invalid username or password. Please try again."
+                )
+
+    return render(
+        request,
+        'accounts/login.html',
+        {'form': form}
+    )
 
 
 # parking attendant dashboard 

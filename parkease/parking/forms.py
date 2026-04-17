@@ -24,8 +24,13 @@ class VehicleForm(forms.ModelForm):
             'nin': forms.TextInput(attrs={'class': 'form-control'}),
         }
         error_messages={
-            'driver_name':{'required':'Driver name required'},
-            'phone_number':{'required':'Phone is required '}
+            'driver_name':{'required':'Please enter your name'},
+            'phone_number':{'required':'Please enter the number plate'},
+            'model':{'required':'Please enter the model'},
+            'color':{'required':'Please enter the color'},
+            'phone_number':{'required':'Please enter your phone number'},
+            'nin':{'required':'Please enter your nin'},
+            'number_plate':{'required':'Please enter your number plate'}
 
         }
 
