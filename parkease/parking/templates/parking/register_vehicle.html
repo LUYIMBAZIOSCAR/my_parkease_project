@@ -1,55 +1,55 @@
-{% extends 'layout.html' %}
-{% block body %}
+{% extends 'layout.html' %} {% block body %}
 <h2 class="mb-4">Register Vehicle</h2>
 
 <div class="card shadow-sm">
-<div class="card-body">
+  <div class="card-body">
+    <form method="POST" action="{% url 'register_vehicle' %}">
+      {% csrf_token %} {% if form.errors %}
+      <div class="alert alert-danger">Please correct the errors below.</div>
+      {% endif %}
 
-<form method="POST" action="{% url 'register_vehicle' %}">
-    {% csrf_token %}
-
-    <div class="row g-3">
-
+      <div class="row g-3">
         <div class="col-md-6">
-            <label class="form-label">Driver Name</label>
-            {{ form.driver_name }}
+          <label class="form-label">Driver Name</label>
+          {{ form.driver_name }}
+          <div class="text-danger">{{ form.driver_name.errors }}</div>
         </div>
 
         <div class="col-md-6">
-            <label class="form-label">Vehicle Type</label>
-            {{ form.vehicle_type }}
+          <label class="form-label">Vehicle Type</label>
+          {{ form.vehicle_type }}
         </div>
 
         <div class="col-md-6">
-            <label class="form-label">Number Plate</label>
-             {{ form.number_plate }}
+          <label class="form-label">Number Plate</label>
+          {{ form.number_plate }}
         </div>
 
         <div class="col-md-6">
-            <label class="form-label">Vehicle Model</label>
-            {{ form.model }}
+          <label class="form-label">Vehicle Model</label>
+          {{ form.model }}
         </div>
 
         <div class="col-md-6">
-            <label class="form-label">Color</label>
-            {{ form.color }}
+          <label class="form-label">Color</label>
+          {{ form.color }}
         </div>
 
         <div class="col-md-6">
-            <label class="form-label">Phone Number</label>
-            {{ form.phone_number }}
+          <label class="form-label">Phone Number</label>
+          {{ form.phone_number }}
         </div>
 
         <div class="col-md-6">
-            <label class="form-label">National ID</label>
-             {{ form.nin }}
+          <label class="form-label">National ID</label>
+          {{ form.nin }}
         </div>
+      </div>
 
-    </div>
-
-    <button class="btn btn-primary mt-3" type="submit">Register Vehicle</button>
-</form>
-</div>
+      <button class="btn btn-primary mt-3" type="submit">
+        Register Vehicle
+      </button>
+    </form>
+  </div>
 </div>
 {% endblock %}
-

@@ -22,7 +22,7 @@ def register_vehicle(request):
     else:
         form=VehicleForm()
         
-    return render(request,'parking/register_vehicle.html',{"form":VehicleForm()})
+    return render(request,'parking/register_vehicle.html',{"form":form})
 
 # View function for parked vehicles 
 def parked_vehicles(request):
@@ -86,7 +86,7 @@ def download_receipt(request, vehicle_id):
         f"Entry: {vehicle.entry_time.strftime('%Y-%m-%d %H:%M')}",
         f"Exit: {vehicle.exit_time.strftime('%Y-%m-%d %H:%M') if vehicle.exit_time else 'N/A'}",
         "-----------------------------------------",
-        f"TOTAL AMOUNT: Shs {vehicle.fee:,}" 
+        f"TOTAL AMOUNT: Shs {vehicle.fee if vehicle.fee is not None else 0:,}"
     ]
 
     y = 770
