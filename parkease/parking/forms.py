@@ -59,7 +59,7 @@ class VehicleForm(forms.ModelForm):
             
         return nin
     
-    def clean_number(self):
+    def clean_number_plate(self):
         plate=self.cleaned_data['number_plate'].upper()
 
         # starting with U
