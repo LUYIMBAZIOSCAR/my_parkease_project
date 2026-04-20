@@ -11,8 +11,13 @@ class Vehicle(models.Model):
         ('Coaster','Coaster'),
         ('Boda', 'Boda-Boda'),
     ]
+    GENDER_CHOICES=[
+        ('Male','Male'),
+        ('Female','Female')
+    ]
 
     driver_name = models.CharField(max_length=50)
+    gender=models.CharField(max_length=10,choices=GENDER_CHOICES)
     vehicle_type = models.CharField(max_length=10, choices=VEHICLE_CHOICES)
     number_plate = models.CharField(max_length=10,unique=True)
     model = models.CharField(max_length=50)

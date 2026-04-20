@@ -80,9 +80,11 @@ def download_receipt(request, vehicle_id):
     # Body
     p.setFont("Helvetica", 12)
     lines = [
-        f"Receipt No: {vehicle.receipt_number}",
         f"Driver: {vehicle.driver_name}",
+        f"Receipt No: {vehicle.receipt_number}",
         f"Plate: {vehicle.number_plate}",
+        f"Contact: {vehicle.phone_number}",
+        f"NIN: {vehicle.nin}",
         f"Entry: {vehicle.entry_time.strftime('%Y-%m-%d %H:%M')}",
         f"Exit: {vehicle.exit_time.strftime('%Y-%m-%d %H:%M') if vehicle.exit_time else 'N/A'}",
         "-----------------------------------------",
