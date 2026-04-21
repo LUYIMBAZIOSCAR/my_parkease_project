@@ -17,7 +17,7 @@ class Vehicle(models.Model):
     ]
 
     driver_name = models.CharField(max_length=50)
-    gender=models.CharField(max_length=10,choices=GENDER_CHOICES)
+    gender = models.CharField(max_length=10,choices=GENDER_CHOICES,default='Male')
     vehicle_type = models.CharField(max_length=10, choices=VEHICLE_CHOICES)
     number_plate = models.CharField(max_length=10,unique=True)
     model = models.CharField(max_length=50)

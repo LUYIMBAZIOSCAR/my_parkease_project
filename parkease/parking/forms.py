@@ -12,7 +12,9 @@ class VehicleForm(forms.ModelForm):
             'model',
             'color',
             'phone_number',
-            'nin'
+            'nin',
+            'gender'
+
         ]
 
         widgets = {
@@ -23,6 +25,7 @@ class VehicleForm(forms.ModelForm):
             'color': forms.TextInput(attrs={'class': 'form-control'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
             'nin': forms.TextInput(attrs={'class': 'form-control'}),
+            'gender':forms.Select(attrs={'class': 'form-control'}),
         }
         error_messages={
             'driver_name':{'required':'Please enter your name'},
@@ -33,7 +36,8 @@ class VehicleForm(forms.ModelForm):
             'nin':{'required':'Please enter your nin','unique':
             'NIN already exists, please enter unique nin'},
             'number_plate':{'required':'Please enter your number plate',
-            'unique':'Number already exists, enter unique number plate'}
+            'unique':'Number already exists, enter unique number plate'},
+            'gender':{'required':'Please enter your gender'}
 
         }
 
