@@ -1,19 +1,36 @@
-from django.contrib.auth.models import User
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
 
 class Profile(models.Model):
-    ROLE_CHOICES=[('attendant','Parking Attendant'),
-                  ('manager1','Section Manager1'),
-                  ('manager2','Section Manager2'),
-                  ('admin','System Admin')]
-    
-    user= models.OneToOneField(User,on_delete=models.CASCADE)
-    role= models.CharField(max_length=20,choices=ROLE_CHOICES)
-    phone_number=models.CharField(max_length=15,blank=True)
+
+    ROLE_CHOICES = [
+        ('admin', 'System Admin'),
+        ('attendant', 'Parking Attendant'),
+        ('manager1', 'Tyre Section Manager'),
+        ('manager2', 'Battery Section Manager'),
+    ]
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default='attendant'
+    )
+
+    phone_number = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
     def __str__(self):
-        return self.user.username
-
-
+        return f"{self.user.username} - {self.role}"
