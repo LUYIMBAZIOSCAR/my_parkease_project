@@ -1,0 +1,54 @@
+{% extends 'tyre_layout.html' %} {% block body %}
+<h2 class="mb-4">Record tyre Service</h2>
+
+<form method="POST" action="{% url 'tyre_service' %}" novalidate>
+    {% csrf_token %}
+
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        Please correct the errors below.
+    </div>
+    {% endif %}
+
+    <div class="row g-3">
+
+        <div class="col-md-6">
+            <label class="form-label">Customer Name</label>
+            {{ form.customer_name }}
+            <div class="text-danger">
+                {{ form.customer_name.errors }}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Phone Number</label>
+            {{ form.phone_number }}
+            <div class="text-danger">
+                {{ form.phone_number.errors }}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Number Plate</label>
+            {{ form.number_plate }}
+            <div class="text-danger">
+                {{ form.number_plate.errors }}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Service Type</label>
+            {{ form.service_type }}
+            <div class="text-danger">
+                {{ form.service_type.errors }}
+            </div>
+        </div>
+
+    </div>
+
+    <button class="btn btn-primary mt-3" type="submit">
+        Save Tyre Service
+    </button>
+
+</form>
+{% endblock %}

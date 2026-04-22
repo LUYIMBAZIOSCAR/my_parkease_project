@@ -5,6 +5,7 @@ from parking.models import Vehicle
 from django.db.models import Sum
 from django.utils import timezone
 from .forms import LoginForm
+from tyres.models import TyreService
 
 # Create your views here.
 
@@ -30,10 +31,11 @@ def login_view(request):
 
                 if role == 'admin':
                     return redirect('admin_dashboard')
-
                 elif role == 'attendant':
                     return redirect('attendant_dashboard')
-
+                elif role =='manager1':
+                    return redirect('manager1_dashboard')
+        
             else:
                 messages.error(
                     request,
@@ -79,6 +81,10 @@ def admin_dashboard(request):
     }
 
     return render(request,'accounts/admin_dashboard.html',context)
+# view function for manager1 dashboard 
+def manager1_dashboard(request):
+    services=TyreService.objects.all()
+    return render(request,'accounts/manager1_dashboard.html',{'services':services})
 
 # view for logout
 def logout_view(request):

@@ -5,8 +5,8 @@ from django.db import models
 
 class Profile(models.Model):
     ROLE_CHOICES=[('attendant','Parking Attendant'),
-                  ('manager1','Section Manager1 '),
-                  ('manager2','Section Manager2 '),
+                  ('manager1','Section Manager1'),
+                  ('manager2','Section Manager2'),
                   ('admin','System Admin')]
     
     user= models.OneToOneField(User,on_delete=models.CASCADE)
