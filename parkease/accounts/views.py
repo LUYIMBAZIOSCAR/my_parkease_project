@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from parking.models import Vehicle
@@ -19,14 +19,9 @@ from .forms import CreateUserForm
 
 @login_required
 def create_user(request):
-    # Only admin allowed
-    if request.user.profile.role != 'admin':
-        return redirect('login')
-    form = CreateUserForm(request.POST)
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             phone = form.cleaned_data['phone_number']
@@ -35,17 +30,8 @@ def create_user(request):
             if User.objects.filter(username=username).exists():
                 messages.error(request, "Username already exists.")
             else:
-                user = User.objects.create_user(
-                    username=username,
-                    password=password
-                )
-
-                Profile.objects.create(
-                    user=user,
-                    phone_number=phone,
-                    role=role
-                )
-
+                user = User.objects.create_user(username=username,password=password)
+                Profile.objects.create(user=user,phone_number=phone,role=role)
                 messages.success(request, "User created successfully.")
                 return redirect('create_user')
     else:
@@ -54,23 +40,16 @@ def create_user(request):
     return render(request,'accounts/register_user.html',{'form': form})
 
 def login_view(request):
-    form = LoginForm(request.POST or None)
-
     if request.method == "POST":
+        form = LoginForm(request.POST)
         if form.is_valid():
-
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
 
-            user = authenticate(
-                request,
-                username=username,
-                password=password
-            )
+            user = authenticate(request,username=username,password=password)
 
             if user is not None:
                 login(request, user)
-
                 role = user.profile.role
 
                 if role == 'admin':
@@ -83,20 +62,19 @@ def login_view(request):
                     return redirect('manager2_dashboard')
         
             else:
-                messages.error(
-                    request,
-                    "Invalid username or password. Please try again."
-                )
+                messages.error(request,"Invalid username or password. Please try again.")
+    else:
+        form=LoginForm()
 
-    return render(
-        request,
-        'accounts/login.html',
-        {'form': form}
-    )
+    return render(request,'accounts/login.html',{'form': form})
 
 
-# parking attendant dashboard 
+# parking attendant dashboard
+@login_required 
 def attendant_dashboard(request):
+    # Only attendant allowed
+    if request.user.profile.role != 'attendant':
+        return redirect('login')
     parked_vehicles=Vehicle.objects.filter(is_parked=True).count()
     total_vehicles=Vehicle.objects.all().count()
     signed_out_vehicles=Vehicle.objects.filter(is_parked=False).count()
@@ -108,8 +86,12 @@ def attendant_dashboard(request):
 
     return render(request,'accounts/attendant-dashboard.html',context)
 
-# manager dashboard 
+# admin dashboard 
+@login_required
 def admin_dashboard(request):
+    # Only admin allowed
+    if request.user.profile.role != 'admin':
+        return redirect('login')
     today=timezone.now().date()
     parked_vehicles=Vehicle.objects.filter(is_parked=True).count()
     total_vehicles=Vehicle.objects.all().count()
@@ -127,13 +109,46 @@ def admin_dashboard(request):
     }
 
     return render(request,'accounts/admin_dashboard.html',context)
+
+# view function for users 
+def users(request):
+    users=Profile.objects.all()
+    return render(request,'accounts/users.html',{'users':users})
+
+# view function to delete a user
+@login_required
+def delete_user(request,user_id):
+    if request.user.profile.role != 'admin':
+        return redirect('login')
+    profile=get_object_or_404(Profile,id=user_id)
+    if request.method=='POST':
+            profile.delete()
+            messages.success(request,'User deleted successfully')
+            return redirect('users')
+    return redirect('users')
+    
+
+
+
+
+
+
 # view function for manager1 dashboard 
+@login_required
 def manager1_dashboard(request):
+    # Only tyre manager allowed
+    if request.user.profile.role != 'manager1':
+        return redirect('login')
+
     services=TyreService.objects.all()
     return render(request,'accounts/manager1_dashboard.html',{'services':services})
 
 # view function for manager2 dashboard 
+@login_required
 def manager2_dashboard(request):
+    # Only battery manager allowed
+    if request.user.profile.role != 'manager2':
+        return redirect('login')
     services=BatteryService.objects.all()
     return render(request,'accounts/manager2_dashboard.html',{'services':services})
 

@@ -1,0 +1,41 @@
+{% extends 'admin_layout.html'%} {% block body%}
+<h2 class="mb-4">Users</h2>
+{% for message in messages %}
+<div class="alert alert-info">{{ message }}</div>
+{% endfor %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Phone Number</th>
+          <th>Role</th>
+          <th>Action</th>
+          
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for user in users %}
+        {% if user.role != 'admin' %}
+        <tr>
+          <td>{{user.user.username}}</td>
+          <td>{{user.phone_number}}</td>
+          <td>{{user.role}}</td>
+          <td>
+            <form action="{% url 'delete_user' user.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">
+                Delete
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

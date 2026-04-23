@@ -6,12 +6,13 @@ from .models import Vehicle
 from django.utils import timezone
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 
 # view for registering a vehicle 
-
+@login_required
 def register_vehicle(request):
     if request.method=='POST':
         form=VehicleForm(request.POST)
@@ -25,6 +26,7 @@ def register_vehicle(request):
     return render(request,'parking/register_vehicle.html',{"form":form})
 
 # View function for parked vehicles 
+@login_required
 def parked_vehicles(request):
     vehicles=Vehicle.objects.filter(is_parked=True)
 
@@ -33,6 +35,7 @@ def parked_vehicles(request):
     return render(request,'parking/parked_vehicles.html',{'vehicles':vehicles})
 
 # view function for payment confirmation 
+@login_required
 def confirm_payment(request,vehicle_id):
     vehicle=get_object_or_404(Vehicle,id=vehicle_id)
     fee=vehicle.calculate_fee()
@@ -56,6 +59,7 @@ def confirm_payment(request,vehicle_id):
     return render(request,'parking/confirm_payment.html',context)
 
 # view function for the receipt
+@login_required
 def receipt(request,vehicle_id):
     vehicle=get_object_or_404(Vehicle,id=vehicle_id)
     context={'vehicle':vehicle}
@@ -63,6 +67,7 @@ def receipt(request,vehicle_id):
     return render(request,'parking/receipt.html',context)
 
 #view function for downloading receipt pdf
+@login_required
 def download_receipt(request, vehicle_id):
     vehicle = get_object_or_404(Vehicle, id=vehicle_id)
 
@@ -104,6 +109,7 @@ def download_receipt(request, vehicle_id):
     return response
 
 # view function for signed out vehicles
+@login_required
 def signed_out_vehicles(request):
     vehicles=Vehicle.objects.filter(is_parked=False)
 
@@ -113,6 +119,7 @@ def signed_out_vehicles(request):
     return render(request,'parking/signed_out_vehicles.html',{'vehicles':vehicles})
 
 # view function to delete a vehicle
+@login_required
 def delete_vehicle(request,vehicle_id):
     try:
         vehicle=get_object_or_404(Vehicle,id=vehicle_id)

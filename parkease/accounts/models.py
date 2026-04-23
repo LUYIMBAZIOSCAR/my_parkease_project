@@ -11,26 +11,10 @@ class Profile(models.Model):
         ('manager2', 'Battery Section Manager'),
     ]
 
-    user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE
-    )
-
-    role = models.CharField(
-        max_length=20,
-        choices=ROLE_CHOICES,
-        default='attendant'
-    )
-
-    phone_number = models.CharField(
-        max_length=15,
-        blank=True,
-        null=True
-    )
-
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    role = models.CharField(max_length=20,choices=ROLE_CHOICES,default='attendant')
+    phone_number = models.CharField(max_length=15,blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.role}"
