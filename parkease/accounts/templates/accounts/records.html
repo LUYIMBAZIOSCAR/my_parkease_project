@@ -1,0 +1,126 @@
+{% extends 'admin_layout.html'%} {% block body%}
+<h2 class="mb-4">Signed Out Vehicles</h2>
+{% if messages %} {% for message in messages %}
+<div class="alert alert-danger">{{ message }}</div>
+{% endfor %} {% endif %}
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Driver Name</th>
+          <th>Number Plate</th>
+          <th>Vehicle Type</th>
+          <th>Model</th>
+          <th>Exit Time</th>
+          <th>Fee</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for vehicle in vehicles %}
+        <tr>
+          <td>{{vehicle.driver_name}}</td>
+          <td>{{vehicle.number_plate}}</td>
+          <td>{{vehicle.vehicle_type}}</td>
+          <td>{{vehicle.model}}</td>
+          <td>{{vehicle.exit_time|date:'h:i:A'}}</td>
+          <td>shs.{{vehicle.fee }}</td>
+          <td>
+            <form action="{% url 'delete_vehicle' vehicle.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">
+                Delete
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center">No signed out vehicles</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<h2 class="mb-4">Tyre Service Records</h2>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Customer Name</th>
+          <th>Phone Number</th>
+          <th>Number Plate</th>
+          <th>Service Type</th>
+          <th>Fee</th>
+          <th>Service Time</th>
+          
+          
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for service in tyre_services %}
+        <tr>
+          <td>{{service.customer_name}}</td>
+           <td>{{service.phone_number}}</td>
+          <td>{{service.number_plate}}</td>
+          <td>{{service.service_type}}</td>
+          <td>{{service.amount}}</td>
+          <td>{{service.created_at|date:'h:i:A'}}</td>
+          
+          
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center">No services</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<h2 class="mb-4">Tyre Service Records</h2>
+<div class="card shadow-sm">
+<div class="card-body">
+<table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Customer Name</th>
+          <th>Phone Number</th>
+          <th>Battery Type</th>
+          <th>Service Type</th>
+          <th>Fee</th>
+          <th>Service Time</th>
+          
+          
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for service in battery_services %}
+        <tr>
+          <td>{{service.customer_name}}</td>
+           <td>{{service.phone_number}}</td>
+          <td>{{service.battery_type}}</td>
+          <td>{{service.service_type}}</td>
+          <td>{{service.amount}}</td>
+          <td>{{service.created_at|date:'h:i:A'}}</td>
+          
+          
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center">No services</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+</div>
+
+{% endblock %}

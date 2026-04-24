@@ -51,7 +51,6 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 role = user.profile.role
-
                 if role == 'admin':
                     return redirect('admin_dashboard')
                 elif role == 'attendant':
@@ -111,6 +110,7 @@ def admin_dashboard(request):
     return render(request,'accounts/admin_dashboard.html',context)
 
 # view function for users 
+@login_required
 def users(request):
     users=Profile.objects.all()
     return render(request,'accounts/users.html',{'users':users})
@@ -126,12 +126,21 @@ def delete_user(request,user_id):
             messages.success(request,'User deleted successfully')
             return redirect('users')
     return redirect('users')
-    
+def records(request):
+    vehicles=Vehicle.objects.filter(is_parked=False)
+    tyre_services=TyreService.objects.all()
+    battery_services=BatteryService.objects.all()
+    for vehicle in vehicles:
+        vehicle.fee=vehicle.calculate_fee()
 
+        
+    context={
+        'vehicles':vehicles,
+        'tyre_services':tyre_services,
+        'battery_services':battery_services
+    }
 
-
-
-
+    return render(request,'accounts/records.html',context)
 
 # view function for manager1 dashboard 
 @login_required

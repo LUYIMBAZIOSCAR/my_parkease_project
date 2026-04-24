@@ -112,7 +112,6 @@ def download_receipt(request, vehicle_id):
 @login_required
 def signed_out_vehicles(request):
     vehicles=Vehicle.objects.filter(is_parked=False)
-
     for vehicle in vehicles:
         vehicle.fee=vehicle.calculate_fee()
     

@@ -9,9 +9,7 @@ class BatteryService(models.Model):
     ]
 
     BATTERY_CHOICES = [
-        ('N70', 'N70'),
-        ('N50', 'N50'),
-        ('Dry Cell', 'Dry Cell'),
+        ('Car Battery', 'Car Battery'),
         ('Truck Battery', 'Truck Battery'),
     ]
 
@@ -25,14 +23,8 @@ class BatteryService(models.Model):
     def save(self, *args, **kwargs):
 
         prices = {
-            ('N70', 'Hire'): 20000,
-            ('N70', 'Sale'): 180000,
-
-            ('N50', 'Hire'): 15000,
-            ('N50', 'Sale'): 150000,
-
-            ('Dry Cell', 'Hire'): 10000,
-            ('Dry Cell', 'Sale'): 80000,
+            ('Car Battery', 'Hire'): 10000,
+            ('Car Battery', 'Sale'): 80000,
 
             ('Truck Battery', 'Hire'): 30000,
             ('Truck Battery', 'Sale'): 300000,

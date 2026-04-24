@@ -8,6 +8,7 @@ from .views import manager2_dashboard
 from .views import create_user
 from .views import users
 from .views import delete_user
+from .views import records
 
 
 urlpatterns=[
@@ -19,7 +20,8 @@ urlpatterns=[
     path('manager2_dashboard',manager2_dashboard,name='manager2_dashboard'),
     path('create_user',create_user,name='create_user'),
     path('users',users,name='users'),
-    path('delete_user/<int:user_id>',delete_user,name='delete_user')
+    path('delete_user/<int:user_id>',delete_user,name='delete_user'),
+    path('records',records,name='records')
 
 
 

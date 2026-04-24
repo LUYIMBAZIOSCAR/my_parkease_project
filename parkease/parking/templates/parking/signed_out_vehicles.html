@@ -1,3 +1,4 @@
+
 {% extends 'layout.html' %} {% block body %}
 <h2 class="mb-4">Signed Out Vehicles</h2>
 
@@ -12,7 +13,7 @@
           <th>Model</th>
           <th>Exit Time</th>
           <th>Fee</th>
-          <th>Action</th>
+          
           
         </tr>
       </thead>
@@ -26,18 +27,6 @@
           <td>{{vehicle.model}}</td>
           <td>{{vehicle.exit_time|date:'h:i:A'}}</td>
           <td>shs.{{vehicle.fee }}</td>
-          <td>
-            <form action="{% url 'delete_vehicle' vehicle.id %}" method="post">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-danger btn-sm">
-                Delete
-              </button>
-            </form>
-            
-              
-            
-
-          </td>
         </tr>
         {% empty %}
         <tr>
