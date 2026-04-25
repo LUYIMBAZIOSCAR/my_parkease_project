@@ -58,6 +58,7 @@
           <th>Service Type</th>
           <th>Fee</th>
           <th>Service Time</th>
+          <th>Action</th>
           
           
         </tr>
@@ -72,6 +73,14 @@
           <td>{{service.service_type}}</td>
           <td>{{service.amount}}</td>
           <td>{{service.created_at|date:'h:i:A'}}</td>
+          <td>
+            <form action="{% url 'delete_tyre_service' service.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">
+                Delete
+              </button>
+            </form>
+          </td>
           
           
         </tr>
@@ -84,7 +93,7 @@
     </table>
   </div>
 </div>
-<h2 class="mb-4">Tyre Service Records</h2>
+<h2 class="mb-4">Battery Service Records</h2>
 <div class="card shadow-sm">
 <div class="card-body">
 <table class="table table-striped">
@@ -96,8 +105,7 @@
           <th>Service Type</th>
           <th>Fee</th>
           <th>Service Time</th>
-          
-          
+          <th>Action</th>
         </tr>
       </thead>
 
@@ -110,7 +118,14 @@
           <td>{{service.service_type}}</td>
           <td>{{service.amount}}</td>
           <td>{{service.created_at|date:'h:i:A'}}</td>
-          
+          <td>
+            <form action="{% url 'delete_battery_service' service.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">
+                Delete
+              </button>
+            </form>
+          </td>
           
         </tr>
         {% empty %}

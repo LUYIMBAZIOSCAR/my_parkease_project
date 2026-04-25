@@ -92,19 +92,23 @@ def admin_dashboard(request):
     if request.user.profile.role != 'admin':
         return redirect('login')
     today=timezone.now().date()
+    vehicles=Vehicle.objects.filter(is_parked=False).order_by('-exit_time')[:3]
     parked_vehicles=Vehicle.objects.filter(is_parked=True).count()
     total_vehicles=Vehicle.objects.all().count()
     signed_out_vehicles=Vehicle.objects.filter(is_parked=False).count()
-    total_revenue=Vehicle.objects.filter(is_paid=True).aggregate(total=Sum('fee'))
-    daily_revenue=Vehicle.objects.filter(is_paid=True,
-    exit_time__date=today).aggregate(total=Sum('fee'))
-    
+    parking_revenue=Vehicle.objects.filter(is_paid=True).aggregate(total=Sum('fee'))
+    tyre_revenue=TyreService.objects.aggregate(total=Sum('amount'))
+    battery_revenue=BatteryService.objects.aggregate(total=Sum('amount'))
     context={
+        'vehicles':vehicles,
         'parked_vehicles':parked_vehicles,
         'total_vehicles':total_vehicles,
         'signed_out_vehicles':signed_out_vehicles,
-        'total_revenue':total_revenue['total'] or 0,
-        'daily_revenue':daily_revenue['total'] or 0
+        'parking_revenue':parking_revenue['total'] or 0,
+        'tyre_revenue':tyre_revenue['total'] or 0,
+        'battery_revenue':battery_revenue['total'] or 0
+        
+
     }
 
     return render(request,'accounts/admin_dashboard.html',context)
@@ -126,6 +130,7 @@ def delete_user(request,user_id):
             messages.success(request,'User deleted successfully')
             return redirect('users')
     return redirect('users')
+@login_required
 def records(request):
     vehicles=Vehicle.objects.filter(is_parked=False)
     tyre_services=TyreService.objects.all()
