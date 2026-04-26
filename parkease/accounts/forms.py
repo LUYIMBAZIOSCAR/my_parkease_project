@@ -1,25 +1,16 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile
+import re
 
 class LoginForm(forms.Form):
     username = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'form-control'
-        }),
-        error_messages={
-            'required': 'Username is required.'
-        }
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages={'required': 'Username is required.'}
     )
 
-    password = forms.CharField(
-        widget=forms.PasswordInput(attrs={
-            'class': 'form-control'
-        }),
-        error_messages={
-            'required': 'Password is required.'
-        }
-    )
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        error_messages={'required': 'Password is required.'})
 
 
 class CreateUserForm(forms.Form):
@@ -48,7 +39,7 @@ class CreateUserForm(forms.Form):
     role = forms.ChoiceField(
         choices=Profile.ROLE_CHOICES,
         widget=forms.Select(attrs={'class': 'form-select'}),
-        error_messages={'required':'Please enter role'}
+        error_messages={'required':'Please enter role','unique':'role already exists'}
     )
     
      # validation for comparing passwords 
@@ -61,4 +52,17 @@ class CreateUserForm(forms.Form):
             raise forms.ValidationError("Passwords do not match!")
         
         return cleaned_data
+    def clean_phone_number(self):
+        phone=self.cleaned_data['phone_number']
+        if not re.match(r'^07\d{8}$',phone):
+            raise forms.ValidationError('Enter a valid phone number e.g 0709135086')
+        return phone
+    def clean_username(self):
+        name=self.cleaned_data['username']
+        if len(name) < 3:
+            raise forms.ValidationError(' username must be atleast 3 characters')
+        if not name.replace(" ","").isalpha():
+            raise forms.ValidationError("username must not contain numbers")
+        return name
+    
 

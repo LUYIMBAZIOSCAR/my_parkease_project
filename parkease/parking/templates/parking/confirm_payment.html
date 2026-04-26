@@ -5,11 +5,16 @@
 <p><strong>Plate:</strong> {{ vehicle.number_plate }}</p>
 <p><strong>Entry Time:</strong> {{ vehicle.entry_time }}</p>
 <p><strong>Amount to Pay:</strong> Shs {{ fee }}</p>
-
+<div class="d-flex gap-2">
 <form method="POST">
     {% csrf_token %}
     <button type="submit" class="btn btn-success">
         Confirm Payment
     </button>
 </form>
+ <a href="{% url 'parked_vehicles'%}" class="btn btn-secondary">
+        Back
+    </a>
+
+</div>
 {% endblock %}

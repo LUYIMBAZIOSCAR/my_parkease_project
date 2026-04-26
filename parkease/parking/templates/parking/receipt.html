@@ -10,7 +10,12 @@
 <p><strong>Exit:</strong> {{ vehicle.exit_time }}</p>
 <p><strong>Amount Paid:</strong> Shs {{ vehicle.fee }}</p>
 
-<a href="{% url 'download_receipt' vehicle.id %}" class="btn btn-primary">
+<div>
+<a href="{% url 'download_receipt' vehicle.id %}" class="btn btn-dark">
     Download PDF
 </a>
+<a href="{% url 'parked_vehicles'%}" class="btn btn-success">
+        Back
+</a>
+</div>
 {% endblock %}

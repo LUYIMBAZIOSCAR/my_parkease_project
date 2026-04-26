@@ -69,15 +69,17 @@ def login_view(request):
 
 
 # parking attendant dashboard
-@login_required 
+@login_required
 def attendant_dashboard(request):
     # Only attendant allowed
     if request.user.profile.role != 'attendant':
         return redirect('login')
-    vehicles=Vehicle.objects.filter(is_parked=True).order_by('-entry_time')[:3]
+    vehicles=Vehicle.objects.filter(is_parked=True)
     parked_vehicles=Vehicle.objects.filter(is_parked=True).count()
     total_vehicles=Vehicle.objects.all().count()
     signed_out_vehicles=Vehicle.objects.filter(is_parked=False).count()
+    for vehicle in vehicles:
+        vehicle.fee=vehicle.calculate_fee()
     context={
         'vehicles':vehicles,
         'parked_vehicles':parked_vehicles,
@@ -95,20 +97,20 @@ def admin_dashboard(request):
         return redirect('login')
     today=timezone.now().date()
     vehicles=Vehicle.objects.filter(is_parked=False).order_by('-exit_time')[:3]
-    parked_vehicles=Vehicle.objects.filter(is_parked=True).count()
     total_vehicles=Vehicle.objects.all().count()
     signed_out_vehicles=Vehicle.objects.filter(is_parked=False).count()
-    parking_revenue=Vehicle.objects.filter(is_paid=True).aggregate(total=Sum('fee'))
-    tyre_revenue=TyreService.objects.aggregate(total=Sum('amount'))
-    battery_revenue=BatteryService.objects.aggregate(total=Sum('amount'))
+    parking_revenue=Vehicle.objects.filter(is_paid=True).aggregate(total=Sum('fee'))['total'] or 0
+    tyre_revenue=TyreService.objects.aggregate(total=Sum('amount'))['total'] or 0
+    battery_revenue=BatteryService.objects.aggregate(total=Sum('amount'))['total'] or 0
+    total_revenue= parking_revenue + tyre_revenue + battery_revenue
     context={
         'vehicles':vehicles,
-        'parked_vehicles':parked_vehicles,
         'total_vehicles':total_vehicles,
         'signed_out_vehicles':signed_out_vehicles,
-        'parking_revenue':parking_revenue['total'] or 0,
-        'tyre_revenue':tyre_revenue['total'] or 0,
-        'battery_revenue':battery_revenue['total'] or 0
+        'parking_revenue':parking_revenue,
+        'tyre_revenue':tyre_revenue,
+        'battery_revenue':battery_revenue,
+        'total_revenue':total_revenue
         
 
     }

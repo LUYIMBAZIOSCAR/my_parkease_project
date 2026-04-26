@@ -35,11 +35,21 @@
           {{ form.number_plate }}
           <div class="text-danger">{{ form.number_plate.errors }}</div>
         </div>
+        <div class="col-md-6">
+          <label class="form-label">National ID</label>
+          {{ form.nin }}
+          <div class="text-danger">{{ form.nin.errors }}</div>
+        </div>
 
         <div class="col-md-6">
           <label class="form-label">Vehicle Model</label>
           {{ form.model }}
           <div class="text-danger">{{ form.model.errors }}</div>
+        </div>
+         <div class="col-md-6">
+          <label class="form-label">Phone Number</label>
+          {{ form.phone_number }}
+          <div class="text-danger">{{ form.phone_number.errors }}</div>
         </div>
 
         <div class="col-md-6">
@@ -48,17 +58,8 @@
           <div class="text-danger">{{ form.color.errors }}</div>
         </div>
 
-        <div class="col-md-6">
-          <label class="form-label">Phone Number</label>
-          {{ form.phone_number }}
-          <div class="text-danger">{{ form.phone_number.errors }}</div>
-        </div>
+       
 
-        <div class="col-md-6">
-          <label class="form-label">National ID</label>
-          {{ form.nin }}
-          <div class="text-danger">{{ form.nin.errors }}</div>
-        </div>
       </div>
 
       <button class="btn btn-primary mt-3" type="submit">
