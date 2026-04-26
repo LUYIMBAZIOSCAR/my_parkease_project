@@ -28,7 +28,7 @@ def register_vehicle(request):
 # View function for parked vehicles 
 @login_required
 def parked_vehicles(request):
-    vehicles=Vehicle.objects.filter(is_parked=True)
+    vehicles=Vehicle.objects.filter(is_parked=True).order_by('-entry_time')
 
     for vehicle in vehicles:
         vehicle.fee=vehicle.calculate_fee()
@@ -111,7 +111,7 @@ def download_receipt(request, vehicle_id):
 # view function for signed out vehicles
 @login_required
 def signed_out_vehicles(request):
-    vehicles=Vehicle.objects.filter(is_parked=False)
+    vehicles=Vehicle.objects.filter(is_parked=False).order_by('-exit_time')
     for vehicle in vehicles:
         vehicle.fee=vehicle.calculate_fee()
     
@@ -130,6 +130,6 @@ def delete_vehicle(request,vehicle_id):
     except Vehicle.DoesNotExist:
         messages.error(request,'Vehicle already deleted')
 
-    return redirect('signed_out_vehicles')
+    return redirect('records')
 
 
