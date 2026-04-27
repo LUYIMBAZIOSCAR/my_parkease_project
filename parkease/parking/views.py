@@ -14,6 +14,8 @@ from django.contrib.auth.decorators import login_required
 # view for registering a vehicle 
 @login_required
 def register_vehicle(request):
+    if request.user.profile.role != 'attendant':
+        return redirect('login')
     if request.method=='POST':
         form=VehicleForm(request.POST)
         if form.is_valid():

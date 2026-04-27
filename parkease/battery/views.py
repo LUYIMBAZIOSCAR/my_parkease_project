@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 # view for battery service
 @login_required
 def battery_service(request):
-    if request.user.profile.role=='manager2':
+    if request.user.profile.role !='manager2':
         return redirect('login')
     if request.method=='POST':
         form=BatteyServiceForm(request.POST)
