@@ -39,6 +39,7 @@ def create_user(request):
 
     return render(request,'accounts/register_user.html',{'form': form})
 
+# view function for login
 def login_view(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
@@ -59,7 +60,9 @@ def login_view(request):
                     return redirect('manager1_dashboard')
                 elif role == 'manager2':
                     return redirect('manager2_dashboard')
-        
+                else:
+                    return redirect('login')
+                
             else:
                 messages.error(request,"Invalid username or password. Please try again.")
     else:
@@ -120,6 +123,9 @@ def admin_dashboard(request):
 # view function for users 
 @login_required
 def users(request):
+    # Only admin allowed
+    if request.user.profile.role != 'admin':
+        return redirect('login')
     users=Profile.objects.all()
     return render(request,'accounts/users.html',{'users':users})
 
