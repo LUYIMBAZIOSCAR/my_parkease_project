@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 # Create your views here.
@@ -30,11 +31,20 @@ def register_vehicle(request):
 # View function for parked vehicles 
 @login_required
 def parked_vehicles(request):
+    query=request.GET.get('q')
     vehicles=Vehicle.objects.filter(is_parked=True).order_by('-entry_time')
-
+    if query:
+        vehicles = vehicles.filter(
+            Q(number_plate__icontains=query) |
+            Q(driver_name__icontains=query) |
+            Q(model__icontains=query)
+        )
     for vehicle in vehicles:
         vehicle.fee=vehicle.calculate_fee()
     return render(request,'parking/parked_vehicles.html',{'vehicles':vehicles})
+
+
+
 
 # view function for payment confirmation 
 @login_required

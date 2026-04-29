@@ -1,4 +1,18 @@
 {% extends 'attendant_layout.html' %} {% block body %}
+<form method="GET" class="mb-3">
+  <div class="input-group">
+    <input 
+      type="text" 
+      name="q" 
+      class="form-control"
+      placeholder="Search by plate, driver, model"
+      value="{{ request.GET.q }}"
+    >
+    <button class="btn btn-primary" type="submit">
+      Search
+    </button>
+  </div>
+</form>
 <h2 class="mb-4">Parked Vehicles</h2>
 
 <div class="card shadow-sm">

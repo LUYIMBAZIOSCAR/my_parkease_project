@@ -77,7 +77,7 @@ def attendant_dashboard(request):
     # Only attendant allowed
     if request.user.profile.role != 'attendant':
         return redirect('login')
-    vehicles=Vehicle.objects.filter(is_parked=True)
+    vehicles=Vehicle.objects.filter(is_parked=True).order_by('-entry_time')[:3]
     parked_vehicles=Vehicle.objects.filter(is_parked=True).count()
     total_vehicles=Vehicle.objects.all().count()
     signed_out_vehicles=Vehicle.objects.filter(is_parked=False).count()
