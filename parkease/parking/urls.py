@@ -5,7 +5,7 @@ from .views import confirm_payment
 from .views import receipt
 from .views import download_receipt
 from .views import signed_out_vehicles
-from .views import delete_vehicle
+from .views import delete_vehicle,edit_vehicle
 
 
 urlpatterns=[
@@ -16,7 +16,8 @@ urlpatterns=[
     path('receipt/<int:vehicle_id>',receipt,name='receipt'),
     path('download_receipt/<int:vehicle_id>',download_receipt,name='download_receipt'),
     path('signed_out_vehicles',signed_out_vehicles,name='signed_out_vehicles'),
-    path('delete_vehicle/<int:vehicle_id>',delete_vehicle,name='delete_vehicle')
+    path('delete_vehicle/<int:vehicle_id>',delete_vehicle,name='delete_vehicle'),
+    path('edit_vehicle/<int:vehicle_id>',edit_vehicle,name='edit_vehicle')
 
 
 ]

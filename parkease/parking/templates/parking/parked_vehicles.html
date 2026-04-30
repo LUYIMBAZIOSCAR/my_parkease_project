@@ -13,6 +13,9 @@
     </button>
   </div>
 </form>
+<a href="{% url 'parked_vehicles' %}" class="btn btn-secondary">
+  Reset
+</a>
 <h2 class="mb-4">Parked Vehicles</h2>
 
 <div class="card shadow-sm">
@@ -40,6 +43,7 @@
           <td>{{vehicle.entry_time|date:'h:i:A'}}</td>
           <td>shs.{{vehicle.fee }}</td>
           <td>
+            <a href="{% url 'edit_vehicle' vehicle.id %}" class="btn btn-sm btn-success">Edit</a>
             <a
               href="{% url 'confirm_payment' vehicle.id %}"
               class="btn btn-sm btn-danger"

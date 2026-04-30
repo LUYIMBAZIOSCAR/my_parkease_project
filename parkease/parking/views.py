@@ -28,6 +28,21 @@ def register_vehicle(request):
         
     return render(request,'parking/register_vehicle.html',{"form":form})
 
+# view function for editing vehicle information 
+def edit_vehicle(request,vehicle_id):
+    vehicle=get_object_or_404(Vehicle,id=vehicle_id)
+
+    if request.method=='POST':
+        form=VehicleForm(request.POST,instance=vehicle)
+
+        if form.is_valid():
+            form.save()
+            return redirect('parked_vehicles')
+    else:
+        form=VehicleForm(instance=vehicle)
+    return render(request,"parking/edit_vehicle.html",{'form':form})
+
+
 # View function for parked vehicles 
 @login_required
 def parked_vehicles(request):
