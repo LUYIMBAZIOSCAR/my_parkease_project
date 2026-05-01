@@ -40,7 +40,7 @@ def edit_vehicle(request,vehicle_id):
             return redirect('parked_vehicles')
     else:
         form=VehicleForm(instance=vehicle)
-    return render(request,"parking/edit_vehicle.html",{'form':form})
+    return render(request,"parking/edit_vehicle.html",{'form':form,'vehicle':vehicle})
 
 
 # View function for parked vehicles 
